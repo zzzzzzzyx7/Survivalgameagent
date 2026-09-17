@@ -14,29 +14,6 @@ Evaluation Runner 负责批量运行、记录 trace、计算指标
 这不是一个“LLM 角色扮演小游戏”，而是一个 **Agent + Environment +
 Evaluation** 框架。
 
-## 当前状态
-
-已完成：
-
-- 实现确定性的 HarvestAgent 风格游戏环境。
-- 实现移动、采集、种植、浇水、收获、交易、制作、战斗、休息、查看等环境动作。
-- 实现 Direct、ReAct、Planner、Planner+Replanning、LLM Decision Agent。
-- `planner` 是固定计划 baseline。
-- `planner_replanning` 使用 LangGraph 工作流，包含 progress checker、planner、replanner、executor。
-- Evaluation Runner 支持单 episode、批量 benchmark、trace JSON 落盘。
-- Metrics 支持 success rate、average steps、invalid action rate、token usage、latency、estimated cost、failure category。
-- Memory/Reflection 已接入 runner，可通过 `--memory-path` 共享 episode lessons。
-- Streamlit UI 包含动态任务输入区、实时运行和轨迹回放。
-- 项目结构、脚本入口、忽略规则和文档已整理。
-
-当前本地验证结果：
-
-```text
-pytest: 67 passed
-ruff: All checks passed
-frontend/app.py 导入检查通过
-```
-
 ## 项目结构
 
 ```text
@@ -193,7 +170,7 @@ python scripts\run_benchmark.py --agents planner_replanning --tasks G02 --seeds 
 默认 LLM 模型是：
 
 ```text
-deepseek-v4-flash
+deepseek-flash
 ```
 
 默认使用 DeepSeek 的 OpenAI-compatible API：
@@ -212,7 +189,7 @@ python scripts\run_benchmark.py --agents llm --tasks G02 --seeds 1
 可选环境变量：
 
 ```powershell
-$env:SURVIVAL_AGENT_MODEL="deepseek-v4-flash"
+$env:SURVIVAL_AGENT_MODEL="deepseek-flash"
 $env:SURVIVAL_AGENT_LLM_BASE_URL="https://api.deepseek.com"
 $env:SURVIVAL_AGENT_LLM_API_KEY_ENV="DEEPSEEK_API_KEY"
 $env:SURVIVAL_AGENT_INPUT_COST_PER_1M="0.14"
@@ -263,16 +240,7 @@ decision parsing，但不会发起真实模型请求。
 - 检查模型是否适合稳定输出 JSON。
 - 如果频繁出现，优先优化 LLM prompt 或增加 JSON 提取容错逻辑。
 
-### 修改 `.env` 后没有生效
 
-`.env` 只在程序启动时加载；运行中的 Streamlit 不会自动重新读取。
-
-处理方式：
-
-```powershell
-Ctrl+C
-python -m streamlit run frontend\app.py
-```
 
 ## 运行 UI
 
@@ -303,13 +271,6 @@ G04: 14 天 episode 内获得 Ancient Key
 G05: 14 天 episode 内击败 Guardian
 ```
 
-说明：`G01` 曾是 `1000 Gold by Day 6`，但在当前经济系统和随机 crop
-disease 事件下过于脆弱，已调整为更稳定、但仍需要多步经济规划的
-`900 Gold within the 14-day episode`。G01-G05 不再设置各自的早期截止日，
-统一以 14 天 episode 为周期。
-
-说明：前端现在不再依赖 G01-G05 JSON 任务定义，而是使用任务输入区的文本动态生成
-临时 task；`evaluation/tasks/` 中的 G01-G05 文件保留给命令行 benchmark 和测试兼容。
 
 ## Agent 对照
 
@@ -327,7 +288,7 @@ planner_replanning
   使用 LangGraph 工作流，在失败、矿洞关闭、storm、pending enemy 等情况下重规划。
 
 llm
-  调用 deepseek-v4-flash，实时运行中要求模型输出结构化 JSON day plan。
+  调用 deepseek-flash，实时运行中要求模型输出结构化 JSON day plan。
 ```
 
 ## 关键设计原则
@@ -339,10 +300,3 @@ llm
 - Trace 记录每一步的 state_before、decision、result、state_after。
 - Memory 和 Reflection 以 episode 为单位沉淀经验。
 
-## 参考文档
-
-- [introduction.md](introduction.md)：原始项目路线图和开发顺序。
-- [docs/architecture.md](docs/architecture.md)：架构边界和依赖方向。
-- [docs/game-rules-spec.md](docs/game-rules-spec.md)：游戏规则规格。
-- [docs/project-structure.md](docs/project-structure.md)：项目结构说明。
-- [docs/tool-skill-audit.md](docs/tool-skill-audit.md)：Tool / Skill 必要性审计。
