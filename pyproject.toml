@@ -1,0 +1,40 @@
+[project]
+name = "survival-agent"
+version = "0.1.0"
+description = "LLM agent benchmark environment for autonomous survival-game planning."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2.8",
+    "langchain>=0.3",
+    "langgraph>=0.2",
+    "openai>=1.40",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3",
+    "ruff>=0.6",
+]
+ui = [
+    "streamlit>=1.37",
+    "pandas>=2.2",
+    "plotly>=5.23",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+exclude = [
+    ".pytest_cache",
+    ".ruff_cache",
+    ".venv",
+    "venv",
+    "game_agent",
+    "logs",
+    "data",
+]

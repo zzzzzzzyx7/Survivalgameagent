@@ -1,0 +1,7 @@
+{
+  "task_id": "G05",
+  "goal": "Get Ancient Key and Iron Sword, then defeat the Mine Guardian by the end of the 14-day episode.",
+  "max_day": 14,
+  "seed": 10005,
+  "success_condition": "g05_defeat_guardian"
+}

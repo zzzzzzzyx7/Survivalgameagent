@@ -1,0 +1,9 @@
+pydantic>=2.8
+langchain>=0.3
+langgraph>=0.2
+openai>=1.40
+streamlit>=1.37
+pandas>=2.2
+plotly>=5.23
+pytest>=8.3
+ruff>=0.6

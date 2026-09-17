@@ -1,0 +1,7 @@
+{
+  "task_id": "G01",
+  "goal": "Have at least 900 Gold by the end of the 14-day episode.",
+  "max_day": 14,
+  "seed": 10001,
+  "success_condition": "g01_900_gold_by_day_7"
+}

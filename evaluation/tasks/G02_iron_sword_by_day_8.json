@@ -1,0 +1,7 @@
+{
+  "task_id": "G02",
+  "goal": "Craft an Iron Sword by the end of the 14-day episode.",
+  "max_day": 14,
+  "seed": 10002,
+  "success_condition": "g02_iron_sword_by_day_8"
+}

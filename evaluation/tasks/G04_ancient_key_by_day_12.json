@@ -1,0 +1,7 @@
+{
+  "task_id": "G04",
+  "goal": "Obtain Ancient Key by the end of the 14-day episode.",
+  "max_day": 14,
+  "seed": 10004,
+  "success_condition": "g04_ancient_key_by_day_12"
+}

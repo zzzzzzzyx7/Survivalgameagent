@@ -1,0 +1,7 @@
+{
+  "task_id": "G03",
+  "goal": "Harvest 3 Potato by the end of the 14-day episode.",
+  "max_day": 14,
+  "seed": 10003,
+  "success_condition": "g03_harvest_3_potato_by_day_10"
+}
